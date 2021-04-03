@@ -273,6 +273,10 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
                         {
                             EditorGUILayout.HelpBox("This puppet does not change any float value.", MessageType.Warning);
                         }
+                        if (IsParameterDefinedButSameAsAPuppet(focus, 2))
+                        {
+                            EditorGUILayout.HelpBox("A puppet parameter is the same as the Parameter. This will cause the puppet menu to instantly close when you change the value.\n\nLeaving the Parameter as an empty value is usually what you want to do.", MessageType.Error);
+                        }
 
                         break;
                     case Av3M2HType.FourAxisPuppet:
@@ -284,6 +288,10 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
                         if (IsEmptyParameter(focus, "puppetParameter0") && IsEmptyParameter(focus, "puppetParameter1") && IsEmptyParameter(focus, "puppetParameter2") && IsEmptyParameter(focus, "puppetParameter3"))
                         {
                             EditorGUILayout.HelpBox("This puppet does not change any float value.", MessageType.Warning);
+                        }
+                        if (IsParameterDefinedButSameAsAPuppet(focus, 4))
+                        {
+                            EditorGUILayout.HelpBox("A puppet parameter is the same as the Parameter. This will cause the puppet menu to instantly close when you change the value.\n\nLeaving the Parameter as an empty value is usually what you want to do.", MessageType.Error);
                         }
 
                         break;
@@ -300,6 +308,10 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
                             {
                                 EditorGUILayout.HelpBox("This puppet does not change any float value.", MessageType.Warning);
                             }
+                        }
+                        if (IsParameterDefinedButSameAsAPuppet(focus, 1))
+                        {
+                            EditorGUILayout.HelpBox("A puppet parameter is the same as the Parameter. This will cause the puppet menu to instantly close when you change the value.\n\nLeaving the Parameter as an empty value is usually what you want to do.", MessageType.Error);
                         }
 
                         break;
@@ -326,9 +338,7 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
                 EditorGUI.EndDisabledGroup();
             }
 
-            if (focus.isEditingMultipleObjects
-                //&& focus.targetObjects.Select(o => ((HaiAv3MenuToHierarchyControl)o).transform.parent).Distinct().Count() == 1 // FIXME: Inefficient way to check if all objects have the same parent
-                                                                                                                               )
+            if (focus.isEditingMultipleObjects)
             {
                 EditorGUILayout.LabelField("Multi-selection actions", EditorStyles.boldLabel);
                 if (GUILayout.Button("Group into a new SubMenu"))
@@ -369,6 +379,23 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
             {
                 gameObjectSerialized.ApplyModifiedProperties();
             }
+        }
+
+        private static bool IsParameterDefinedButSameAsAPuppet(SerializedObject focus, int totalNumberOfPuppets)
+        {
+            var parameter = focus.FindProperty("parameter").stringValue;
+            if (parameter == "") return false;
+
+            if (focus.FindProperty("puppetParameter0").stringValue == parameter) return true;
+            if (totalNumberOfPuppets <= 1) return false;
+
+            if (focus.FindProperty("puppetParameter1").stringValue == parameter) return true;
+            if (totalNumberOfPuppets <= 2) return false;
+
+            if (focus.FindProperty("puppetParameter2").stringValue == parameter) return true;
+            if (totalNumberOfPuppets <= 3) return false;
+
+            return focus.FindProperty("puppetParameter3").stringValue == parameter;
         }
 
         private static void PuppetField(string title, SerializedProperty puppetLabel, bool side)
