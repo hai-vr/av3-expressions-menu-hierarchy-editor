@@ -181,10 +181,6 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.Internal
             switch (currentControl.type)
             {
                 case HaiAv3MenuToHierarchyControl.Av3M2HType.TwoAxisPuppet:
-                    return new[]
-                    {
-                        Av3M2HDecompose.LabelOf(currentControl.puppetLabelUp), Av3M2HDecompose.LabelOf(currentControl.puppetLabelRight),
-                    };
                 case HaiAv3MenuToHierarchyControl.Av3M2HType.FourAxisPuppet:
                     return new[]
                     {
