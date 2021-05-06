@@ -256,12 +256,26 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
                         {
                             EditorGUILayout.HelpBox("This button does nothing.", MessageType.Info);
                         }
+                        else if (IsValueZero(focus))
+                        {
+                            EditorGUILayout.HelpBox(@"A toggle or button with a value of zero will:
+- set the value to zero when clicked.
+- show a spinning wheel when the value is equal to zero.
+- if the parameter is a boolean then it will set the value to false; however if you open the menu asset in Unity Editor using the default inspector, the asset will be automatically edited so that the value will become true instead. If a value of false is what you want, make sure you do not inspect the asset after generating it.", MessageType.Info);
+                        }
 
                         break;
                     case Av3M2HType.Toggle:
                         if (IsEmptyParameter(focus, "parameter"))
                         {
                             EditorGUILayout.HelpBox("This toggles nothing.", MessageType.Warning);
+                        }
+                        else if (IsValueZero(focus))
+                        {
+                            EditorGUILayout.HelpBox(@"A toggle or button with a value of zero will:
+- set the value to zero when clicked.
+- show a spinning wheel when the value is equal to zero.
+- if the parameter is a boolean then it will set the value to false; however if you open the menu asset in Unity Editor using the default inspector, the asset will be automatically edited so that the value will become true instead. If a value of false is what you want, make sure you do not inspect the asset after generating it.", MessageType.Info);
                         }
 
                         break;
@@ -379,6 +393,11 @@ namespace Hai.Av3MenuToHierarchy.Scripts.Editor.EditorUI
             {
                 gameObjectSerialized.ApplyModifiedProperties();
             }
+        }
+
+        private static bool IsValueZero(SerializedObject focus)
+        {
+            return !focus.FindProperty("value").hasMultipleDifferentValues && focus.FindProperty("value").floatValue == 0f;
         }
 
         private static bool IsParameterDefinedButSameAsAPuppet(SerializedObject focus, int totalNumberOfPuppets)
