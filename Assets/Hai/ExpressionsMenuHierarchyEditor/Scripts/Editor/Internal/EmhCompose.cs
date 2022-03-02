@@ -147,7 +147,7 @@ namespace Hai.ExpressionsMenuHierarchyEditor.Scripts.Editor.Internal
                         type = VRCExpressionsMenu.Control.ControlType.Button,
                         name = "",
                         icon = BlankIcon(),
-                        value = 0,
+                        value = 1,
                         parameter = new VRCExpressionsMenu.Control.Parameter
                         {
                             name = ""
@@ -166,7 +166,7 @@ namespace Hai.ExpressionsMenuHierarchyEditor.Scripts.Editor.Internal
                         type = VRCExpressionsMenu.Control.ControlType.Button,
                         name = item.ResolveName(),
                         icon = grayedOutIcon,
-                        value = 0,
+                        value = 1,
                         parameter = new VRCExpressionsMenu.Control.Parameter
                         {
                             name = ""
