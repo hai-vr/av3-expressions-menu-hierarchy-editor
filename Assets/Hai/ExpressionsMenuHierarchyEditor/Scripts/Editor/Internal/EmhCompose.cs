@@ -209,7 +209,7 @@ namespace Hai.ExpressionsMenuHierarchyEditor.Scripts.Editor.Internal
             {
                 return icon;
             }
-            var newTexture = new Texture2D(icon.width, icon.height, TextureFormat.RGBA32, true);
+            var newTexture = new Texture2D(icon.width, icon.height, TextureFormat.RGBA32, false);
 
             var destination = RenderTexture.GetTemporary(icon.width, icon.height, 24);
             var tempMat = Object.Instantiate(shader);
